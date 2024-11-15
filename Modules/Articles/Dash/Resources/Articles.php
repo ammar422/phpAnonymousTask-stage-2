@@ -2,7 +2,6 @@
 
 namespace Modules\Articles\app\Dash\Resources;
 
-use App\Models\User;
 use Dash\Resource;
 use Modules\Articles\Entities\Article;
 
@@ -91,13 +90,12 @@ class Articles extends Resource
 	 */
 	public function fields()
 	{
-
 		return [
 			id(__('dash::dash.id'), 'id'),
 			text(__('dash::dash.title'), 'title'),
 			textarea(__('dash::dash.content'), 'content'),
-			// text(__('dash::dash.author'), 'author_id')->rule('required', 'numeric', 'exists:users,id'),
-			belongsTo()->make('Author', 'author',User::class),
+			belongsTo()->make('Category', 'category', Article::class)->rule('required', 'numeric', 'exists:categories,id'),
+			belongsTo()->make('Author', 'author', Article::class)->rule('required', 'numeric', 'exists:users,id'),
 			text(__('dash::dash.category'), 'category_id')->rule('required', 'numeric', 'exists:categories,id'),
 			text('slug', 'slug')->onlyForms(),
 		];

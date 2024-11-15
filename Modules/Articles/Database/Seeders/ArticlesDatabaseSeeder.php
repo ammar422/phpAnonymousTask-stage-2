@@ -2,8 +2,11 @@
 
 namespace Modules\Articles\Database\Seeders;
 
+use App\Models\User;
 use Illuminate\Database\Seeder;
+use Modules\Articles\Entities\Article;
 use Illuminate\Database\Eloquent\Model;
+use Modules\Categories\Entities\Category;
 
 class ArticlesDatabaseSeeder extends Seeder
 {
@@ -16,6 +19,19 @@ class ArticlesDatabaseSeeder extends Seeder
     {
         Model::unguard();
 
-        // $this->call("OthersTableSeeder");
+
+        $users = User::all();
+        $categories = Category::all();
+
+        Article::factory()
+            ->count(20)
+            ->state(function () use ($users, $categories) {
+                return [
+                    'category_id' => $categories->random()->id,
+                    'author_id' => $users->random()->id,
+                ];
+            })
+            ->withTranslations()
+            ->create();
     }
 }

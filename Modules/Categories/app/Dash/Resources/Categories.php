@@ -86,6 +86,10 @@ class Categories extends Resource {
 	public function fields() {
 		return [
 			id(__('dash::dash.id'), 'id'),
+			text(__('dash::dash.name'), 'name'),
+			text(__('dash::dash.description'), 'description'),
+			text('slug', 'slug')->onlyForms(),
+			// text('sttaus', 'slug'),
 		];
 	}
 

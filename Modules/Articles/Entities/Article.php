@@ -4,14 +4,16 @@ namespace Modules\Articles\Entities;
 
 use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
-use Modules\Category\Entities\Category;
 use Astrotomic\Translatable\Translatable;
-use Astrotomic\Translatable\Contracts\Translatable as TranslatableContract;
+use Modules\Categories\Entities\Category;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Modules\Articles\Database\factories\ArticleFactory;
+use Astrotomic\Translatable\Contracts\Translatable as TranslatableContract;
 
 class Article extends Model implements TranslatableContract
 {
-    use Translatable , SoftDeletes;
+    use Translatable , SoftDeletes , HasFactory;
 
     protected $fillable = [
         'category_id',
@@ -37,9 +39,9 @@ class Article extends Model implements TranslatableContract
 
 
 
-    // protected static function newFactory()
-    // {
-    //     return \Modules\Article\Database\factories\ArticleFactory::new();
-    // }
+    protected static function newFactory()
+    {
+        return ArticleFactory::new();
+    }
 
 }

@@ -34,7 +34,7 @@ return [
 	'show'                                => 'عرض',
 	'record_not_found'                    => 'الصفحة غير موجودة',
 	'ask_delete'                          => 'هل انت متأكد من حذف السجل رقم ',
-    'ask_delete_file_dz'              => 'هل انت متأكد من حذف هذا الملف ؟',
+	'ask_delete_file_dz'              => 'هل انت متأكد من حذف هذا الملف ؟',
 	'create'                              => 'إضافة ',
 	'all'                                 => 'الكل ',
 	"start"                               => "ابداء",
@@ -91,5 +91,11 @@ return [
 	'none_data'                      => 'اضف بطاقة إلى فئة لوحة القيادة الخاصة بك',
 	'attention'                      => 'انتبه',
 	'need_permission_to_access_page' => 'تحتاج الى اذن من المدير للوصول لهذه الصفحة ',
-    "file_deleted"=>'تم حذف الملف',
+	"file_deleted" => 'تم حذف الملف',
+	"title" => "ألعنوان",
+	"content" => "المحتوى",
+	"author" => "ألمؤلف",
+	"category" => "الفئة",
+	"description" => "الوصف",
+
 ];

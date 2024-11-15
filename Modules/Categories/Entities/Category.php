@@ -2,12 +2,13 @@
 
 namespace Modules\Categories\Entities;
 
-use Modules\Article\Entities\Article;
+use Modules\Articles\Entities\Article;
 use Illuminate\Database\Eloquent\Model;
 use Astrotomic\Translatable\Translatable;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Astrotomic\Translatable\Contracts\Translatable as TranslatableContract;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Modules\Categories\Database\factories\CategoryFactory;
+use Astrotomic\Translatable\Contracts\Translatable as TranslatableContract;
 
 class Category extends Model implements TranslatableContract
 {
@@ -28,8 +29,8 @@ class Category extends Model implements TranslatableContract
         return $this->hasMany(Article::class);
     }
 
-    // protected static function newFactory()
-    // {
-    //     return CategoryFactory::new();
-    // }
+    protected static function newFactory()
+    {
+        return CategoryFactory::new();
+    }
 }
