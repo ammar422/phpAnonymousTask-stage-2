@@ -6,8 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Traits\ApiResponseTrait;
 use Illuminate\Routing\Controller;
-use Illuminate\Support\Facades\Config;
-use Modules\Category\Entities\Category;
+use Modules\Categories\Entities\Category;
 use Modules\Category\Http\Requests\CategoryRequest;
 use Modules\Category\Transformers\CategoryResource;
 

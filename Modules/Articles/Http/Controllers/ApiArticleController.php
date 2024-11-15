@@ -4,7 +4,7 @@ namespace Modules\Article\Http\Controllers;
 
 use App\Traits\ApiResponseTrait;
 use Illuminate\Routing\Controller;
-use Modules\Article\Entities\Article;
+use Modules\Articles\Entities\Article;
 use Modules\Article\Http\Requests\ArticleRequest;
 use Modules\Article\Transformers\ArticleResource;
 
