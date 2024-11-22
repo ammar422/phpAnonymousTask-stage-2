@@ -14,10 +14,13 @@
         "laravel/framework": "^10.0",
         "laravel/sanctum": "^3.3",
         "laravel/tinker": "^2.8",
+        "livewire/livewire": "^3.5",
         "nwidart/laravel-modules": "10.0",
-        "phpanonymous/dash": "*"
+        "phpanonymous/dash": "*",
+        "spatie/laravel-health": "^1.30"
     },
     "require-dev": {
+        "barryvdh/laravel-debugbar": "^3.14",
         "fakerphp/faker": "^1.9.1",
         "laravel/pint": "^1.0",
         "laravel/sail": "^1.18",

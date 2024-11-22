@@ -1,9 +1,20 @@
 <?php
-namespace Modules\Categories\app\Dash\Resources;
-use Dash\Resource;
-use Modules\Categories\Entities\Category;
 
-class Categories extends Resource {
+namespace Modules\Categories\app\Dash\Resources;
+
+use Dash\Resource;
+use App\Dash\Resources\Users;
+use App\Dash\Filters\CategoryOwner;
+use Modules\Categories\Entities\Category;
+use App\Dash\Actions\ChangeCategoryStatus;
+use App\Dash\Metrics\Values\Categories as ValuesCategories;
+use App\Dash\Metrics\Values\CategoriesHasSaubiscripers;
+use App\Dash\Metrics\Values\EmptyCategory;
+use App\Dash\Metrics\Values\InactiveCategory;
+
+class Categories extends Resource
+{
+
 
 	/**
 	 * define Model of resource
@@ -61,13 +72,16 @@ class Categories extends Resource {
 	 * 	Example: method=> 'invoices'  => columns=>['title'],
 	 * @var array<string> $searchWithRelation
 	 */
-	public static $searchWithRelation = [];
+	public static $searchWithRelation = [
+		'user' => ['name']
+	];
 
 	/**
 	 * if you need to custom resource name in menu navigation
 	 * @return string
 	 */
-	public static function customName() {
+	public static function customName()
+	{
 		return 'Categories';
 	}
 
@@ -75,21 +89,78 @@ class Categories extends Resource {
 	 * you can define vertext in header of page like (Card,HTML,view blade)
 	 * @return array<string>
 	 */
-	public static function vertex() {
-		return [];
+	public static function vertex()
+	{
+		return [
+			(new ValuesCategories)->render(),
+			(new InactiveCategory)->render(),
+			(new EmptyCategory)->render(),
+			(new CategoriesHasSaubiscripers)->render()
+		];
 	}
 
 	/**
 	 * define fields by Helpers
 	 * @return array<string>
 	 */
-	public function fields() {
+	public function fields()
+	{
 		return [
-			id(__('dash::dash.id'), 'id'),
-			text(__('dash::dash.name'), 'name'),
-			text(__('dash::dash.description'), 'description'),
-			text('slug', 'slug')->onlyForms(),
+			// id(__('dash::dash.id'), 'id'),
+			id()->make('category index', 'id')->orderable(false),
+
+
+			// text(__('dash::dash.name'), 'name'),
+			text()->make('category name', 'name')
+				->ruleWhenCreate('required')
+				->ruleWhenUpdate('nullable'),
+
+
+			// text(__('dash::dash.description'), 'description'),
+			// text()->make('category description', 'description')->rule('required'),
+			ckeditor()->make('category description', 'description')
+				->hideInIndex(),
+
+
+			image()->make('category image', 'image')
+				->path('category/image')
+				->rule(
+					'required',
+					'image'
+					// )->accept('image/*')->disableDownloadButton() -> deleteable(false),
+				)->accept('image/*')->disableDownloadButton(),
+
+
+			text('slug', 'slug')
+				->rule('required')->onlyForms(),
 			// text('sttaus', 'slug'),
+
+			text('category status', 'status'),
+
+			dropzone()->make('upload file')
+				->maxFiles(3)
+				->maxFileSize(.5)
+				->acceptedMimeTypes('image/*', 'video/*')
+				->hideInIndex(),
+
+
+			belongsTo('owner name', 'user', Users::class)
+				// ->inlineButton()
+				// ->inline()
+				->viewColumns('email')
+				->query(function ($model) {
+					return $model::where('account_type', 'admin');
+				}),
+
+
+			hasMany('subscribers', 'users', Users::class),
+
+
+			// fullDateTime('creation date' , 'created_at' )->onlyIndex()
+			// fullTime('creation date' , 'created_at' )->inline()
+			fullTime('creation date', 'created_at')->weekNumbers()
+			// fullTime('creation date' , 'created_at' )->allowInput()
+			// month('creation date' , 'created_at' )->onlyIndex()
 		];
 	}
 
@@ -98,8 +169,12 @@ class Categories extends Resource {
 	 * php artisan dash:make-action ActionName
 	 * @return array<string>
 	 */
-	public function actions() {
-		return [];
+	public function actions()
+	{
+		return [
+			ChangeCategoryStatus::class,
+			// ChangeCategoryOwner::class,
+		];
 	}
 
 	/**
@@ -107,8 +182,48 @@ class Categories extends Resource {
 	 * php artisan dash:make-filter FilterName
 	 * @return array<string>
 	 */
-	public function filters() {
-		return [];
+	public function filters()
+	{
+		return [
+			CategoryOwner::class,
+		];
 	}
 
+
+	public static function dtButtons()
+	{
+		return [
+			'pageLength',
+			'collection',
+			'colvis',
+			'colvisRestore',
+			'columnsToggle',
+			'colvisGroup',
+			'pdf',
+			'csv',
+			[
+				'extend' => 'print',
+				'text' => 'Print',
+				'key' => ['key' => 'p', 'altkey' => true]
+			],
+			[
+				'extend' => 'excel',
+				'text' => 'Execl',
+				'key' => ['key' => 'x', 'altkey']
+			],
+			[
+				'extend' => 'copy',
+				'text' => 'Copy',
+				'key' => ['key' => 'c', 'altkey' => true]
+
+			],
+
+		];
+	}
+
+	// public static $paging = false;
+	public static $pagingType = 'numbers';
+	// public static $pagingType = 'simple';
+	public static $lengthMenu = [10];
+	// public static $ordering = false;
 }

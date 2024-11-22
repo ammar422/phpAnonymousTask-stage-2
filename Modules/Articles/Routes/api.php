@@ -2,7 +2,6 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use Modules\Article\App\Http\Controllers\Api\ArticleController;
 use Modules\Article\Http\Controllers\ApiArticleController;
 
 /*
@@ -20,12 +19,13 @@ Route::middleware('auth:api')->get('/article', function (Request $request) {
     return $request->user();
 });
 
-
-// Route::get('articles', [ArticleController::class, 'indexAny']);
-// Route::middleware('auth:api')->group(function () {
-//     Route::apiResource('articles', ArticleController::class);
-//     Route::post('articles/restore/{id}', [ArticleController::class, 'restore']);
-//     Route::delete('articles/force/delete/{id}', [ArticleController::class, 'forceDelete']);
+// route::prefix('lynx')->group(function () {
+//     Route::get('articles', [ArticleController::class, 'indexAny']);
+//     Route::middleware('auth:api')->group(function () {
+//         Route::apiResource('articles', ArticleController::class);
+//         Route::post('articles/restore/{id}', [ArticleController::class, 'restore']);
+//         Route::delete('articles/force/delete/{id}', [ArticleController::class, 'forceDelete']);
+//     });
 // });
 
 
